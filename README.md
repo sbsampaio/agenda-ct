@@ -16,5 +16,9 @@
 - Ferramenta Open Source
 - App Navegação Campus
 - Analisador Perf. Código
+- UniForma – Sistema de Gestão de Empréstimos de Uniformes Atlética
+- BookSwap – Plataforma de Troca de Livros Acadêmicos
+- LabReserva – Sistema de Reserva de Salas e Laboratórios
+
 
 [](https://docs.google.com/document/d/1lBuzBSkqkyXXRuF_oxzUg0TEDZxnEftwDA7dqj_1nFk/edit?pli=1&tab=t.0)
