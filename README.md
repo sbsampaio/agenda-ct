@@ -5,7 +5,7 @@
 - Sistema Inteligente de Acompanhamento Acadêmico (SIAC)
 - AlgoLearn - Plataforma Interativa de Visualização de Algoritmos e Estruturas de Dados
 - Aplicativo Mobile de Gerenciamento de TCC
-- Sistema de Recomendação de Disciplinas Eletivas
+- Sistema de Recomendação de Disciplinas Eletivas - 1
 - Hub de Recursos da UFES (Comunidade acadêmica e público externo)
 - App Bem-Estar Mental
 - Plataforma Estudo Colab
