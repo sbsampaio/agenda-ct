@@ -8,6 +8,7 @@ from .role import Role
 from .user import User
 
 
+# --- MODEL ---
 class UserRole(Base):
     __tablename__ = "user_role"
 

@@ -1,14 +1,18 @@
+# --- standard imports ---
 from datetime import datetime
 from enum import IntEnum
 
+# --- third party imports ---
 from sqlalchemy import BigInteger, DateTime, Enum, ForeignKey, Text, TextClause
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+# --- local imports ---
 from ..settings.declarative_base import Base
 from .room import Room
 from .user import User
 
 
+# --- ENUM ---
 class AppointmentStatus(IntEnum):
     PENDING = 0
     APPROVED = 1
@@ -16,6 +20,7 @@ class AppointmentStatus(IntEnum):
     CANCELED = 3
 
 
+# --- MODEL ---
 class Appointments(Base):
     __tablename__ = "appointments"
 
@@ -66,8 +71,18 @@ class Appointments(Base):
         index=True,
     )
 
-    applicant = relationship("User", back_populates="appointment")
-    room = relationship("Room", back_populates="appointment")
+    # --- relationships ---
+    applicant = relationship(
+        "User",
+        foreign_keys=[applicant_id],
+        back_populates="appointments_as_applicant",
+    )
+    approver = relationship(
+        "User",
+        foreign_keys=[approver_id],
+        back_populates="appointments_as_approver",
+    )
+    room = relationship("Room", back_populates="appointments")
 
     def __repr__(self) -> str:
         return f"<Appointments(id={self.id}, applicant_id={self.applicant_id}, room_id={self.room_id})>"

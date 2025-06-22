@@ -1,0 +1,14 @@
+services:
+  database:
+    image: mysql:latest # official MySQL docker image
+    container_name: agnd-ct-db
+    environment:
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:3306" # maps host port to container port
+    volumes:
+      - mysql_data:/var/lib/mysql # persists data to a named volume
+
+volumes:
+  mysql_data: # define the named volume

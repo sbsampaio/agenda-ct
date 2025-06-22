@@ -1,13 +1,17 @@
+# --- third party imports ---
 from sqlalchemy import BigInteger, Boolean, Integer, String, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+# --- local imports ---
 from ..settings.declarative_base import Base
 
+# --- CONSTANTS ---
 NAME_LEN = 100
 TYPE_LEN = 50
 LOCATION_LEN = 255
 
 
+# --- MODEL ---
 class Room(Base):
     __tablename__ = "room"
 
@@ -33,6 +37,9 @@ class Room(Base):
     capacity: Mapped[int] = mapped_column(Integer, nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
     active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+
+    # --- relationships ---
+    appointments = relationship("Appointment", back_populates="room")
 
     def __repr__(self) -> str:
         return f"<Room(id={self.id}, name={self.name})>"

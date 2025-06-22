@@ -9,6 +9,7 @@ from ..settings.declarative_base import Base
 NAME_LEN = 50
 
 
+# --- MODEL ---
 class Role(Base):
     __tablename__ = "role"
 

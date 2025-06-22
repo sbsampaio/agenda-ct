@@ -14,6 +14,7 @@ PASSWORD_LEN = 255
 NAME_LEN = 50
 
 
+# --- MODEL ---
 class User(Base):
     __tablename__ = "user"
 
@@ -35,10 +36,21 @@ class User(Base):
     first_name: Mapped[str] = mapped_column(String(NAME_LEN), nullable=False)
     last_name: Mapped[str] = mapped_column(String(NAME_LEN), nullable=False)
 
+    # --- relationships ---
     user_role = relationship(
         "UserRole",
         back_populates="user",
         cascade="all, delete-orphan",
+    )
+    appointments_as_applicant = relationship(
+        "Appointment",
+        foreign_keys="Appointment.applicant_id",
+        back_populates="applicant",
+    )
+    appointments_as_approver = relationship(
+        "Appointment",
+        foreign_keys="Appointment.approver_id",
+        back_populates="approver",
     )
 
     def __repr__(self) -> str:
