@@ -6,7 +6,7 @@ Lívia Helena Rosa Scopel e Samuel Bagatelli Sampaio
 
 ## Diagrama de Classes
 
-[![Diagrama de classes]](img/diagrama.png)
+![Diagrama de classes](img/diagrama.png)
 
 <!-- FERRAMENTAS ESCOLHIDAS -->
 
