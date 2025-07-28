@@ -16,7 +16,7 @@ Lívia Helena Rosa Scopel e Samuel Bagatelli Sampaio
 - Build: N/A
 - Testes: Pytest
 - Issue tracking: Github
-- CI/CD:
+- CI/CD: Github Actions
 - Container: Docker
 
 <!-- FRAMEWORKS UTILIZADOS -->
