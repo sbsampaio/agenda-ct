@@ -9,9 +9,9 @@ from pwdlib import PasswordHash
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fast_zero.database import get_session
-from fast_zero.models import User
-from fast_zero.settings import Settings
+from database import get_session
+from database.models import User
+from database.settings import Settings
 
 pwd_context = PasswordHash.recommended()
 settings = Settings()

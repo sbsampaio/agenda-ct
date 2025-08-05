@@ -1,13 +1,14 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
-from database.models.appointments import AppointmentStatus
+from models.appointments import AppointmentStatus, Appointments
 
 
 class AppointmentsPublic(BaseModel):
     datetime_start: datetime
     datetime_end: datetime
     room_id: int
+
 
 class AppointmenstSchema(AppointmentsPublic):
     id: int
