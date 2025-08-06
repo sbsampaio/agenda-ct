@@ -1,4 +1,10 @@
 from logging.config import fileConfig
+import sys
+from pathlib import Path
+
+# Adicionar o caminho do projeto ao sys.path
+project_root = Path(__file__).parent.parent.parent
+sys.path.append(str(project_root))
 
 from sqlalchemy import engine_from_config, pool
 
@@ -17,7 +23,10 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from ..settings.declarative_base import Base
+from database.settings.declarative_base import Base
+
+# Importar todos os modelos para que o Alembic possa detectá-los
+from database.models import user, role, user_role, room, appointments
 
 target_metadata = Base.metadata
 
@@ -25,15 +34,13 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-from ..settings.env_var import DatabaseSettings
 
-settings = DatabaseSettings()  # pyright: ignore
+# Usando SQLite temporariamente para evitar problemas de dependências
+DATABASE_URL = "sqlite:///./backend/test.db"
 
 config.set_main_option(
     "sqlalchemy.url",
-    f"mysql+mysqldb://"
-    f"{settings.db_username}:{settings.db_password}"
-    f"@{settings.db_hostname}:{settings.db_port}/{settings.db_name}",
+    DATABASE_URL,
 )
 
 

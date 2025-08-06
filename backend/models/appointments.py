@@ -7,7 +7,7 @@ from sqlalchemy import BigInteger, DateTime, Enum, ForeignKey, Text, TextClause
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
-from ..settings.declarative_base import Base
+from ..base import Base
 from .room import Room
 from .user import User
 

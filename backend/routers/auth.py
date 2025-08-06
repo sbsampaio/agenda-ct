@@ -7,9 +7,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.database import get_session
-from models import User
-from schemas import Token
-from security import (
+from backend.models import User
+from backend.schemas import Token
+from backend.security import (
     create_access_token,
     get_current_user,
     verify_password,

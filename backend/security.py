@@ -5,16 +5,16 @@ from zoneinfo import ZoneInfo
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jwt import DecodeError, ExpiredSignatureError, decode, encode
+from backend.token_settings import TokenSettings
 from pwdlib import PasswordHash
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database import get_session
-from database.models import User
-from database.settings import Settings
+from .database import get_session
+from backend.models import User
 
 pwd_context = PasswordHash.recommended()
-settings = Settings()
+settings = TokenSettings()
 
 
 def create_access_token(data: dict):

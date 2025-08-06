@@ -3,7 +3,7 @@ from sqlalchemy import BigInteger, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
-from ..settings.declarative_base import Base
+from ..base import Base
 from .role import Role
 from .user import User
 

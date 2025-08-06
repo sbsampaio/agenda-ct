@@ -39,7 +39,7 @@ class Room(Base):
     active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 
     # --- relationships ---
-    appointments = relationship("Appointment", back_populates="room")
+    appointments = relationship("Appointments", back_populates="room")
 
     def __repr__(self) -> str:
         return f"<Room(id={self.id}, name={self.name})>"
