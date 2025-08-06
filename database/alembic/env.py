@@ -34,13 +34,15 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+from database.settings.env_var import DatabaseSettings
 
-# Usando SQLite temporariamente para evitar problemas de dependências
-DATABASE_URL = "sqlite:///./backend/test.db"
+settings = DatabaseSettings()  # pyright: ignore
 
 config.set_main_option(
     "sqlalchemy.url",
-    DATABASE_URL,
+    f"mysql+mysqldb://"
+    f"{settings.db_username}:{settings.db_password}"
+    f"@{settings.db_hostname}:{settings.db_port}/{settings.db_name}",
 )
 
 
