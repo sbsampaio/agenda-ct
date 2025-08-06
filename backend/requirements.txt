@@ -2,7 +2,10 @@ fastapi[standard]
 pydantic
 pydantic-settings
 sqlalchemy[asyncio]
-mysqlclient
+# mysqlclient
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart
+aiosqlite
+PyJWT
+pwdlib[argon2]
