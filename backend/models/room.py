@@ -1,5 +1,5 @@
 # --- third party imports ---
-from sqlalchemy import Integer, Boolean, Integer, String, Text
+from sqlalchemy import BigInteger, Boolean, BigInteger, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -16,7 +16,7 @@ class Room(Base):
     __tablename__ = "room"
 
     id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         primary_key=True,
         index=True,
         autoincrement=True,
@@ -34,7 +34,7 @@ class Room(Base):
         nullable=False,
         comment="ex: CT 13, 3º Andar, Sala 301",
     )
-    capacity: Mapped[int] = mapped_column(Integer, nullable=False)
+    capacity: Mapped[int] = mapped_column(BigInteger, nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
     active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 

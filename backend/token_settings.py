@@ -27,11 +27,11 @@ class TokenSettings(BaseSettings):
     access_token_expire_minutes: int = Field(alias="ACCESS_TOKEN_EXPIRE_MINUTES", default=30)
     
     # Database settings with defaults
-    db_hostname: str = Field(alias="DB_HOSTNAME", default="localhost")
+    db_hostname: str = Field(alias="DB_HOSTNAME", default="127.0.0.1")
     db_port: int = Field(alias="DB_PORT", default=3306)
-    db_name: str = Field(alias="DB_NAME", default="testdb")
+    db_name: str = Field(alias="DB_NAME", default="agenda_ct")
     db_username: str = Field(alias="DB_USERNAME", default="root")
-    db_password: str = Field(alias="DB_PASSWORD", default="")
+    db_password: str = Field(alias="DB_PASSWORD", default="password")
 
     @property
     def DATABASE_URL(self) -> str:

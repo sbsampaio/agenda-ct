@@ -3,7 +3,7 @@ from datetime import datetime
 from enum import IntEnum
 
 # --- third party imports ---
-from sqlalchemy import Integer, DateTime, Enum, ForeignKey, Text, TextClause
+from sqlalchemy import BigInteger, DateTime, Enum, ForeignKey, Text, TextClause
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -25,7 +25,7 @@ class Appointments(Base):
     __tablename__ = "appointments"
 
     id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         primary_key=True,
         index=True,
         autoincrement=True,
@@ -54,19 +54,19 @@ class Appointments(Base):
     )
 
     applicant_id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey(User.id, ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
     room_id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey(Room.id, ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
     approver_id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey(User.id, ondelete="CASCADE"),
         index=True,
     )

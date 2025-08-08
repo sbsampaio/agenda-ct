@@ -2,7 +2,7 @@
 from datetime import datetime
 
 # --- third party imports ---
-from sqlalchemy import Integer, DateTime, Integer, String, TextClause
+from sqlalchemy import BigInteger, DateTime, BigInteger, String, TextClause
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -19,7 +19,7 @@ class User(Base):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         primary_key=True,
         index=True,
         autoincrement=True,
