@@ -1,5 +1,5 @@
 # --- third party imports ---
-from sqlalchemy import BigInteger, ForeignKey
+from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -13,14 +13,14 @@ class UserRole(Base):
     __tablename__ = "user_role"
 
     user_id: Mapped[int] = mapped_column(
-        BigInteger,
+        Integer,
         ForeignKey(User.id, ondelete="CASCADE"),
         nullable=False,
         index=True,
         primary_key=True,
     )
     role_id: Mapped[int] = mapped_column(
-        BigInteger,
+        Integer,
         ForeignKey(Role.id, ondelete="CASCADE"),
         nullable=False,
         index=True,

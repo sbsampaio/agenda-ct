@@ -1,15 +1,13 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
+from .base import Base
 
-# from token_settings import TokenSettings
-
-# Usando SQLite temporariamente para evitar problemas de dependências
-DATABASE_URL = "sqlite+aiosqlite:///./test.db"
+DATABASE_URL = "sqlite:///./test.db"
 # Para MySQL quando estiver pronto: TokenSettings().DATABASE_URL.replace("mysql+mysqldb", "mysql+aiomysql")
 
-engine = create_async_engine(DATABASE_URL)
-async_session = async_sessionmaker(engine, expire_on_commit=False)
+engine = create_engine(DATABASE_URL)
 
 
-async def get_session():
-    async with async_session() as session:
+def get_session():
+    with Session(engine) as session:  # ← Passe o engine aqui
         yield session

@@ -1,5 +1,5 @@
 # --- third party imports ---
-from sqlalchemy import BigInteger, Boolean, Integer, String, Text
+from sqlalchemy import Integer, Boolean, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -16,7 +16,7 @@ class Room(Base):
     __tablename__ = "room"
 
     id: Mapped[int] = mapped_column(
-        BigInteger,
+        Integer,
         primary_key=True,
         index=True,
         autoincrement=True,

@@ -13,7 +13,7 @@ Lívia Helena Rosa Scopel e Samuel Bagatelli Sampaio
 ## Ferramentas escolhidas
 
 - Versionamento e compartilhamento de código: Git
-- Build: N/A
+- Build: Poetry
 - Testes: Pytest
 - Issue tracking: Github
 - CI/CD: Github Actions
@@ -48,9 +48,10 @@ Ao rodar a aplicação, a documentação estará disponível pelo link http://12
    cd agenda-ct
    ```
 
-2. Inicie um ambiente virtual
+2. Inicie um ambiente virtual dentro da pasta backend
 
    ```sh
+   cd backend
    python3 -m venv .venv
    ```
 
@@ -74,7 +75,17 @@ Ao rodar a aplicação, a documentação estará disponível pelo link http://12
 
 6. Modifique o arquivo `.env`, inserindo as variáveis corretas
 
-7. ROde a aplicação (no modo dev)
+7. Faça o mesmo processo para o database
+
+8. Na pasta database
+   ```sh
+   docker compose up
+   alembic upgrade head
+   ```
+
+   usuario root e hostname 127.0.0.1
+
+7. Rode a aplicação (no modo dev)
 
    ```sh
    fastapi dev app/main.py

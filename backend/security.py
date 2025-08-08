@@ -8,7 +8,7 @@ from jwt import DecodeError, ExpiredSignatureError, decode, encode
 from backend.token_settings import TokenSettings
 from pwdlib import PasswordHash
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 
 from .database import get_session
 from backend.models import User
@@ -42,8 +42,8 @@ oauth2_scheme = OAuth2PasswordBearer(
 )
 
 
-async def get_current_user(
-    session: AsyncSession = Depends(get_session),
+def get_current_user(
+    session: Session = Depends(get_session),
     token: str = Depends(oauth2_scheme),
 ):
     credentials_exception = HTTPException(
@@ -67,7 +67,7 @@ async def get_current_user(
     except ExpiredSignatureError:
         raise credentials_exception
 
-    user = await session.scalar(
+    user = session.scalar(
         select(User).where(User.email == subject_email)
     )
 

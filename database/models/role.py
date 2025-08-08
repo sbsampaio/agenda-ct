@@ -1,5 +1,5 @@
 # --- third party imports ---
-from sqlalchemy import BigInteger, String
+from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -14,7 +14,7 @@ class Role(Base):
     __tablename__ = "role"
 
     id: Mapped[int] = mapped_column(
-        BigInteger,
+        Integer,
         primary_key=True,
         index=True,
         autoincrement=True,
