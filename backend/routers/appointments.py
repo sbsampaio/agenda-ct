@@ -3,7 +3,7 @@ from http import HTTPStatus
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import null, select
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from backend.database import get_session
 from backend.models import User, Appointments
@@ -44,7 +44,7 @@ def create_appointment(appointment: AppointmentsPublic, session: Session, curren
     db_appointment.created_at = datetime.now()
     db_appointment.status = 0  # PENDING
     db_appointment.applicant_id = current_user.id
-    db_appointment.approver_id = 0
+    db_appointment.approver_id = None
 
     session.add(db_appointment)
     session.commit()
@@ -65,7 +65,7 @@ def cancel_appointment(appointment_id: int, session: Session, current_user: Curr
     appointment.status = 3  # CANCELED
     session.commit()
 
-    return {"detail": "Appointment cancelled successfully"}
+    return {"message": "Appointment cancelled successfully"}
 
 @router.post("/{appointment_id}/approve", response_model=Message)
 def approve_appointment(
@@ -76,14 +76,16 @@ def approve_appointment(
     if not appointment:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Appointment not found")
 
-    # precisa do user role
-    if appointment.approver_id != current_user.id:
+    # precisa do user role para verificar se não é admin
+    if ... != current_user.id:
         raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Not authorized to recuse this appointment")
+
+    appointment.approver_id = current_user.id
 
     appointment.status = 1  # APPROVED
     session.commit()
 
-    return {"detail": "Appointment approved successfully"}
+    return {"message": "Appointment approved successfully"}
 
 @router.post("/{appointment_id}/refuse", response_model=Message)
 def refuse_appointment(
@@ -94,11 +96,13 @@ def refuse_appointment(
     if not appointment:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Appointment not found")
 
-    # precisa do user role
-    if appointment.approver_id != current_user.id:
+    # precisa do user role para verificar se não é admin
+    if ... != current_user.id:
         raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Not authorized to refuse this appointment")
+
+    appointment.approver_id = current_user.id
 
     appointment.status = 2  # REFUSED
     session.commit()
 
-    return {"detail": "Appointment refused successfully"}
+    return {"message": "Appointment refused successfully"}

@@ -69,6 +69,7 @@ class Appointments(Base):
         BigInteger,
         ForeignKey(User.id, ondelete="CASCADE"),
         index=True,
+        nullable=True,
     )
 
     # --- relationships ---
