@@ -10,6 +10,7 @@ from fastapi import FastAPI
 from backend.routers.auth import router as auth_router
 from backend.routers.users import router as users_router
 from backend.routers.appointments import router as appointments_router
+from backend.routers.room import router as room_router
 from backend.schemas import Message
 
 app = FastAPI(title="Minha API")
@@ -20,6 +21,8 @@ app.include_router(auth_router)
 app.include_router(users_router)
 
 app.include_router(appointments_router)
+
+app.include_router(room_router)
 
 @app.get("/", status_code=HTTPStatus.OK, response_model=Message)
 def read_root():

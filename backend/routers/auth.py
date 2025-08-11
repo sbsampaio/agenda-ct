@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from backend.database import get_session
-from backend.models import User
+from backend.models.user import User
 from backend.schemas import Token
 from backend.security import (
     create_access_token,

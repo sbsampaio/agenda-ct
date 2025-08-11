@@ -14,14 +14,14 @@ class UserRole(Base):
 
     user_id: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey(User.id, ondelete="CASCADE"),
+        ForeignKey("user.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
         primary_key=True,
     )
     role_id: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey(Role.id, ondelete="CASCADE"),
+        ForeignKey("role.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
         primary_key=True,

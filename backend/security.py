@@ -11,7 +11,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from .database import get_session
-from backend.models import User
+from backend.models.user import User
 
 pwd_context = PasswordHash.recommended()
 settings = TokenSettings()

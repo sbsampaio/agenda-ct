@@ -6,7 +6,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from backend.database import get_session
-from backend.models import User, Appointments
+from backend.models.user import User
+from backend.models.appointments import Appointments
 from backend.schemas import Message
 from backend.schemas.appointments import AppointmentsPublic, AppointmentsSchema
 from backend.security import get_current_user, get_password_hash
