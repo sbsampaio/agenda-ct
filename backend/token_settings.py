@@ -22,16 +22,19 @@ class TokenSettings(BaseSettings):
     # db_password: str = Field(alias="DB_PASSWORD")
     
     # Token settings with defaults
-    secret_key: str = Field(alias="SECRET_KEY", default="dev-secret-key")
-    algorithm: str = Field(alias="ALGORITHM", default="HS256")
-    access_token_expire_minutes: int = Field(alias="ACCESS_TOKEN_EXPIRE_MINUTES", default=30)
-    
+    # secret_key: str = Field(alias="SECRET_KEY", default="dev-secret-key")
+    # algorithm: str = Field(alias="ALGORITHM", default="HS256")
+    # access_token_expire_minutes: int = Field(alias="ACCESS_TOKEN_EXPIRE_MINUTES", default=30)
+    SECRET_KEY: str = "secret-key"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+
     # Database settings with defaults
     db_hostname: str = Field(alias="DB_HOSTNAME", default="127.0.0.1")
-    db_port: int = Field(alias="DB_PORT", default=3306)
+    db_port: int = Field(alias="DB_PORT", default=3316)
     db_name: str = Field(alias="DB_NAME", default="agenda_ct")
     db_username: str = Field(alias="DB_USERNAME", default="root")
-    db_password: str = Field(alias="DB_PASSWORD", default="password")
+    db_password: str = Field(alias="DB_PASSWORD", default="password123")
 
     @property
     def DATABASE_URL(self) -> str:

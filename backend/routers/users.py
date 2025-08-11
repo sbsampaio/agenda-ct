@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -72,7 +72,8 @@ def update_user(
             status_code=HTTPStatus.FORBIDDEN, detail="Not enough permissions"
         )
     try:
-        current_user.name = user.name
+        current_user.first_name = user.first_name
+        current_user.last_name = user.last_name
         current_user.password = get_password_hash(user.password)
         current_user.email = user.email
         session.commit()

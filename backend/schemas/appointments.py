@@ -1,22 +1,21 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import BigInteger
 
-from models.appointments import AppointmentStatus, Appointments
+from backend.models.appointments import AppointmentStatus, Appointments
 
 
 class AppointmentsPublic(BaseModel):
+    reason: str
     datetime_start: datetime
     datetime_end: datetime
-    room_id: BigInteger
+    room_id: int
 
 
-class AppointmenstSchema(AppointmentsPublic):
-    id: BigInteger
+class AppointmentsSchema(AppointmentsPublic):
+    id: int
     created_at: datetime
-    reason: str
     status: AppointmentStatus
-    applicant_id: BigInteger
-    approver_id: BigInteger
+    applicant_id: int
+    approver_id: int
 
     model_config = ConfigDict(from_attributes=True)
