@@ -1,3 +1,5 @@
 pytest
 factory_boy
 freezegun
+fastapi[standard]
+sqlalchemy

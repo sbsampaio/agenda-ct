@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -21,7 +22,7 @@ app = FastAPI(title="Minha API")
 
 
 # corrigit o deprecated
-@app.on_event("startup")
+@asynccontextmanager("startup")
 async def startup_event():
     session = next(get_session())
     try:
