@@ -1,4 +1,3 @@
-from datetime import datetime
 from http import HTTPStatus
 from typing import Annotated
 
@@ -8,11 +7,9 @@ from sqlalchemy.orm import Session
 from backend.database import get_session
 from backend.db_utils import is_admin
 from backend.models.user import User
-from backend.routers.user_role import check_user_has_role
 from backend.schemas import Message
-from backend.schemas.appointments import AppointmentsPublic, AppointmentsSchema
 from backend.schemas.room import RoomPublic
-from backend.security import get_current_user, get_password_hash
+from backend.security import get_current_user
 from backend.models.room import Room
 
 

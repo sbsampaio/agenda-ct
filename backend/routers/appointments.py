@@ -9,8 +9,8 @@ from backend.database import get_session
 from backend.models.user import User
 from backend.models.appointments import Appointments
 from backend.schemas import Message
-from backend.schemas.appointments import AppointmentsPublic, AppointmentsSchema
-from backend.security import get_current_user, get_password_hash
+from backend.schemas.appointments import AppointmentsPublic
+from backend.security import get_current_user
 from backend.db_utils import is_admin
 
 

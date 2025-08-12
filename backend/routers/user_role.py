@@ -1,9 +1,3 @@
-"""
-Módulo de gerenciamento de user_role - apenas para uso interno.
-Contém funções utilitárias para gerenciar relacionamentos entre usuários e roles.
-Não expõe rotas, funciona apenas internamente através de db_utils.py
-"""
-
 from typing import Annotated
 from fastapi import Depends
 from sqlalchemy import select
@@ -12,15 +6,13 @@ from sqlalchemy.orm import Session
 from backend.database import get_session
 from backend.models.user import User
 from backend.models.user_role import UserRole
-from backend.models.role import Role
 from backend.security import get_current_user
 
-# Tipos para uso interno
 Session = Annotated[Session, Depends(get_session)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
 
 
-def assign_role_to_user_internal(user_id: int, role_id: int, session: Session) -> bool:
+def assign_role_to_user_internal(user_id: int, role_id: int, session: Session):
     existing_user_role = session.scalar(
         select(UserRole).where(
             UserRole.user_id == user_id,
@@ -38,7 +30,7 @@ def assign_role_to_user_internal(user_id: int, role_id: int, session: Session) -
     return True
 
 
-def remove_role_from_user_internal(user_id: int, role_id: int, session: Session) -> bool:
+def remove_role_from_user_internal(user_id: int, role_id: int, session: Session):
     user_role = session.scalar(
         select(UserRole).where(
             UserRole.user_id == user_id,
@@ -55,7 +47,7 @@ def remove_role_from_user_internal(user_id: int, role_id: int, session: Session)
     return True
 
 
-def check_user_has_role_internal(user_id: int, role_id: int, session: Session) -> bool:
+def check_user_has_role_internal(user_id: int, role_id: int, session: Session):
     user_role = session.scalar(
         select(UserRole).where(
             UserRole.user_id == user_id,

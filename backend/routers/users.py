@@ -7,7 +7,6 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from backend.database import get_session
 from backend.models.user import User
-from backend.models.user_role import UserRole
 from backend.schemas import (
     Message,
     UserPublic,

@@ -1,7 +1,6 @@
 # --- standard imports ---
 from datetime import datetime
 from enum import IntEnum
-from typing import TYPE_CHECKING
 
 # --- third party imports ---
 from sqlalchemy import BigInteger, DateTime, Enum, ForeignKey, Text, TextClause
