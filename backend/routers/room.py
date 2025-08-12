@@ -6,12 +6,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from backend.database import get_session
+from backend.db_utils import is_admin
 from backend.models.user import User
+from backend.routers.user_role import check_user_has_role
 from backend.schemas import Message
 from backend.schemas.appointments import AppointmentsPublic, AppointmentsSchema
 from backend.schemas.room import RoomPublic
 from backend.security import get_current_user, get_password_hash
-from database.models.room import Room
+from backend.models.room import Room
 
 
 router = APIRouter(prefix="/room", tags=["room"])
@@ -44,8 +46,7 @@ def deactivate_room(room_id: int, session: Session, current_user: CurrentUser):
     if not room:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Room not found")
 
-    # permissoes
-    if room.created_by != current_user.id:
+    if not is_admin(current_user, session):
         raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Not authorized to deactivate this room")
 
     room.active = False

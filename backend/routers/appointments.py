@@ -11,6 +11,7 @@ from backend.models.appointments import Appointments
 from backend.schemas import Message
 from backend.schemas.appointments import AppointmentsPublic, AppointmentsSchema
 from backend.security import get_current_user, get_password_hash
+from backend.db_utils import is_admin
 
 
 router = APIRouter(prefix="/appointments", tags=["appointments"])
@@ -77,9 +78,8 @@ def approve_appointment(
     if not appointment:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Appointment not found")
 
-    # precisa do user role para verificar se não é admin
-    if ... != current_user.id:
-        raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Not authorized to recuse this appointment")
+    if not is_admin(current_user, session):
+        raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Admin role required to approve appointments")
 
     appointment.approver_id = current_user.id
 
@@ -97,9 +97,8 @@ def refuse_appointment(
     if not appointment:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Appointment not found")
 
-    # precisa do user role para verificar se não é admin
-    if ... != current_user.id:
-        raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Not authorized to refuse this appointment")
+    if not is_admin(current_user, session):
+        raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Admin role required to refuse appointments")
 
     appointment.approver_id = current_user.id
 

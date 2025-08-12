@@ -7,12 +7,14 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from backend.database import get_session
 from backend.models.user import User
+from backend.models.user_role import UserRole
 from backend.schemas import (
     Message,
     UserPublic,
     UserSchema,
 )
 from backend.security import get_current_user, get_password_hash
+from backend.db_utils import assign_user_role
 
 router = APIRouter(prefix="/users", tags=["users"])
 Session = Annotated[Session, Depends(get_session)]
@@ -45,6 +47,8 @@ def create_user(user: UserSchema, session: Session):
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
+
+    assign_user_role(db_user.id, session)
 
     return db_user
 

@@ -2,7 +2,7 @@
 from datetime import datetime
 
 # --- third party imports ---
-from sqlalchemy import BigInteger, DateTime, BigInteger, String, TextClause
+from sqlalchemy import BigInteger, DateTime, String, TextClause
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
