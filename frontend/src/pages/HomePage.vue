@@ -20,6 +20,7 @@
             height: 12dvw;
             border-radius: 20px;
           "
+          @click="selectRoom('Auditórios')"
         >
           <q-card-section class="column items-center">
             <q-icon name="computer" size="3.5vw" color="green-4" />
@@ -36,6 +37,7 @@
             height: 12dvw;
             border-radius: 20px;
           "
+          @click="selectRoom('Salas de Aula')"
         >
           <q-card-section class="column items-center">
             <q-icon name="school" size="3.5vw" color="blue-4" />
@@ -52,6 +54,7 @@
             height: 12dvw;
             border-radius: 20px;
           "
+          @click="selectRoom('Laboratórios')"
         >
           <q-card-section class="column items-center">
             <q-icon name="science" size="3.5vw" color="yellow-4" />
@@ -64,5 +67,27 @@
 </template>
 
 <script setup lang="ts">
-//
+import { Dialog } from 'quasar';
+import AvailableRoomsComponent from '../components/AvailableRoomsComponent.vue';
+
+function selectRoom(roomType: string) {
+  console.log('Tipo de ambiente selecionado:', roomType);
+
+  Dialog.create({
+    component: AvailableRoomsComponent,
+
+    componentProps: {
+      roomType: roomType,
+    },
+  })
+    .onOk(() => {
+      console.log('OK');
+    })
+    .onCancel(() => {
+      console.log('Cancel');
+    })
+    .onDismiss(() => {
+      console.log('Called on OK or Cancel');
+    });
+}
 </script>
