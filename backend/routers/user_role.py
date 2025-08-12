@@ -1,7 +1,11 @@
-from http import HTTPStatus
-from typing import Annotated, List
+"""
+Módulo de gerenciamento de user_role - apenas para uso interno.
+Contém funções utilitárias para gerenciar relacionamentos entre usuários e roles.
+Não expõe rotas, funciona apenas internamente através de db_utils.py
+"""
 
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Annotated
+from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -9,67 +13,32 @@ from backend.database import get_session
 from backend.models.user import User
 from backend.models.user_role import UserRole
 from backend.models.role import Role
-from backend.schemas.user_role import UserRoleSchema
-from backend.schemas.role import RoleSchema
-from backend.schemas import Message
 from backend.security import get_current_user
 
-router = APIRouter(prefix="/user-role", tags=["user-role"])
+# Tipos para uso interno
 Session = Annotated[Session, Depends(get_session)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
 
 
-@router.post("/", status_code=HTTPStatus.CREATED, response_model=UserRoleSchema)
-def assign_role_to_user(
-    user_role: UserRoleSchema, 
-    session: Session, 
-):
-    user = session.get(User, user_role.user_id)
-    if not user:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, 
-            detail="User not found"
-        )
-    
-    role = session.get(Role, user_role.role_id)
-    if not role:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, 
-            detail="Role not found"
-        )
-    
+def assign_role_to_user_internal(user_id: int, role_id: int, session: Session) -> bool:
     existing_user_role = session.scalar(
         select(UserRole).where(
-            UserRole.user_id == user_role.user_id,
-            UserRole.role_id == user_role.role_id
+            UserRole.user_id == user_id,
+            UserRole.role_id == role_id
         )
     )
     
     if existing_user_role:
-        raise HTTPException(
-            status_code=HTTPStatus.CONFLICT,
-            detail="User already has this role"
-        )
+        return False
     
-    db_user_role = UserRole(
-        user_id=user_role.user_id,
-        role_id=user_role.role_id
-    )
-    
+    db_user_role = UserRole(user_id=user_id, role_id=role_id)
     session.add(db_user_role)
     session.commit()
-    session.refresh(db_user_role)
     
-    return db_user_role
+    return True
 
 
-@router.delete("/{user_id}/{role_id}", response_model=Message)
-def remove_role_from_user(
-    user_id: int, 
-    role_id: int, 
-    session: Session, 
-):
-    
+def remove_role_from_user_internal(user_id: int, role_id: int, session: Session) -> bool:
     user_role = session.scalar(
         select(UserRole).where(
             UserRole.user_id == user_id,
@@ -78,23 +47,15 @@ def remove_role_from_user(
     )
     
     if not user_role:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail="User role relationship not found"
-        )
+        return False
     
     session.delete(user_role)
     session.commit()
     
-    return {"message": "Role removed from user successfully"}
+    return True
 
-@router.get("/{user_id}/has-role/{role_id}", response_model=dict)
-def check_user_has_role(
-    user_id: int, 
-    role_id: int, 
-    session: Session, 
-):
-    
+
+def check_user_has_role_internal(user_id: int, role_id: int, session: Session) -> bool:
     user_role = session.scalar(
         select(UserRole).where(
             UserRole.user_id == user_id,
@@ -102,4 +63,4 @@ def check_user_has_role(
         )
     )
     
-    return {"has_role": user_role is not None}
+    return user_role is not None
