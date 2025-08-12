@@ -20,7 +20,7 @@ from backend.db_utils import ensure_default_roles
 app = FastAPI(title="Minha API")
 
 
-# Inicializar roles padrão na inicialização da aplicação
+# corrigit o deprecated
 @app.on_event("startup")
 async def startup_event():
     session = next(get_session())
