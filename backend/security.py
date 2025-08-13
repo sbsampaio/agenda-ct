@@ -11,7 +11,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from .database import get_session
-from backend.models import User
+from backend.models.user import User
 
 pwd_context = PasswordHash.recommended()
 settings = TokenSettings()
@@ -20,7 +20,7 @@ settings = TokenSettings()
 def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(
-        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
+        minutes=30 # settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
     to_encode.update({"exp": expire})
     encoded_jwt = encode(
@@ -39,6 +39,7 @@ def verify_password(plain_password: str, hashed_password: str):
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="auth/token", refreshUrl="auth/refresh"
+
 )
 
 

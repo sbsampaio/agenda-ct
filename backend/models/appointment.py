@@ -7,9 +7,7 @@ from sqlalchemy import BigInteger, DateTime, Enum, ForeignKey, Text, TextClause
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
-from ..settings.declarative_base import Base
-from .room import Room
-from .user import User
+from ..base import Base
 
 
 # --- ENUM ---
@@ -21,7 +19,7 @@ class AppointmentStatus(IntEnum):
 
 
 # --- MODEL ---
-class Appointments(Base):
+class Appointment(Base):
     __tablename__ = "appointments"
 
     id: Mapped[int] = mapped_column(
@@ -55,20 +53,21 @@ class Appointments(Base):
 
     applicant_id: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey(User.id, ondelete="CASCADE"),
+        ForeignKey("user.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
     room_id: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey(Room.id, ondelete="CASCADE"),
+        ForeignKey("room.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
     approver_id: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey(User.id, ondelete="CASCADE"),
+        ForeignKey("user.id", ondelete="CASCADE"),
         index=True,
+        nullable=True,
     )
 
     # --- relationships ---
@@ -82,7 +81,8 @@ class Appointments(Base):
         foreign_keys=[approver_id],
         back_populates="appointments_as_approver",
     )
-    room = relationship("Room", back_populates="appointments")
+
+    appointment_room = relationship("Room", back_populates="appointments")
 
     def __repr__(self) -> str:
-        return f"<Appointments(id={self.id}, applicant_id={self.applicant_id}, room_id={self.room_id})>"
+        return f"<Appointment(id={self.id}, applicant_id={self.applicant_id}, room_id={self.room_id})>"

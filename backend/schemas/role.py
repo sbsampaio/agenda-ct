@@ -1,6 +1,10 @@
 from pydantic import BaseModel, ConfigDict
 
 
+class RoleCreate(BaseModel):
+    name: str
+
+
 class RoleSchema(BaseModel):
     id: int
     name: str

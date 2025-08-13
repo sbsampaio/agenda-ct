@@ -2,7 +2,7 @@
 from datetime import datetime
 
 # --- third party imports ---
-from sqlalchemy import BigInteger, DateTime, BigInteger, String, TextClause
+from sqlalchemy import BigInteger, DateTime, String, TextClause
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -43,13 +43,13 @@ class User(Base):
         cascade="all, delete-orphan",
     )
     appointments_as_applicant = relationship(
-        "Appointments",
-        foreign_keys="Appointments.applicant_id",
+        "Appointment",
+        foreign_keys="Appointment.applicant_id",
         back_populates="applicant",
     )
     appointments_as_approver = relationship(
-        "Appointments",
-        foreign_keys="Appointments.approver_id",
+        "Appointment",
+        foreign_keys="Appointment.approver_id",
         back_populates="approver",
     )
 

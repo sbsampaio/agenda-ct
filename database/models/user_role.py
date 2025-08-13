@@ -3,9 +3,7 @@ from sqlalchemy import BigInteger, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
-from ..settings.declarative_base import Base
-from .role import Role
-from .user import User
+from ..base import Base
 
 
 # --- MODEL ---
@@ -14,14 +12,14 @@ class UserRole(Base):
 
     user_id: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey(User.id, ondelete="CASCADE"),
+        ForeignKey("user.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
         primary_key=True,
     )
     role_id: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey(Role.id, ondelete="CASCADE"),
+        ForeignKey("role.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
         primary_key=True,

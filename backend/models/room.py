@@ -1,5 +1,5 @@
 # --- third party imports ---
-from sqlalchemy import BigInteger, Boolean, BigInteger, String, Text
+from sqlalchemy import BigInteger, Boolean, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
@@ -39,7 +39,7 @@ class Room(Base):
     active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 
     # --- relationships ---
-    appointments = relationship("Appointments", back_populates="room")
+    appointments = relationship("Appointment", back_populates="appointment_room", cascade="all, delete-orphan")
 
     def __repr__(self) -> str:
         return f"<Room(id={self.id}, name={self.name})>"
