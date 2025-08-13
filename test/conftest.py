@@ -1,5 +1,15 @@
+
+import os
 from contextlib import contextmanager
 from datetime import datetime
+
+# Configura SQLite para testes antes de qualquer importação do backend
+os.environ["DATABASE_URL"] = "sqlite:///./test.db"
+
+# Adiciona o diretório raiz do projeto ao sys.path
+from pathlib import Path
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
 
 import factory
 import pytest
@@ -20,11 +30,30 @@ def client(session):
     def get_session_override():
         return session
 
-    with TestClient(app) as client:
-        app.dependency_overrides[get_session] = get_session_override
+    # Cria uma versão do app sem lifespan para testes
+    from fastapi import FastAPI
+    from backend.routers.auth import router as auth_router
+    from backend.routers.users import router as users_router
+    from backend.routers.appointment import router as appointments_router
+    from backend.routers.room import router as room_router
+    from backend.schemas import Message
+    from http import HTTPStatus
+    
+    test_app = FastAPI(title="Minha API - Teste")
+    test_app.include_router(auth_router)
+    test_app.include_router(users_router)
+    test_app.include_router(appointments_router)
+    test_app.include_router(room_router)
+    
+    @test_app.get("/", status_code=HTTPStatus.OK, response_model=Message)
+    def read_root():
+        return {"message": "Olá Mundo!"}
+
+    with TestClient(test_app) as client:
+        test_app.dependency_overrides[get_session] = get_session_override
         yield client
 
-    app.dependency_overrides.clear()
+    test_app.dependency_overrides.clear()
 
 
 @pytest.fixture

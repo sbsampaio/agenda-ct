@@ -3,3 +3,6 @@ factory_boy
 freezegun
 fastapi[standard]
 sqlalchemy
+pwdlib[argon2]
+PyJWT
+pydantic-settings
