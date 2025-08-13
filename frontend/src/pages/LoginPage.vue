@@ -86,7 +86,7 @@
   </q-page>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 import { Notify } from 'quasar';
 

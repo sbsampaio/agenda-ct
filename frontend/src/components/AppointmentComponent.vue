@@ -4,7 +4,7 @@
       class="q-dialog-plugin q-pa-lg shadow-24 relative-position"
       style="
         background: #1f2937;
-        width: 50vw;
+        width: 45vw;
         max-width: 80vw;
         height: 40vh;
         max-height: 100vh;
@@ -29,7 +29,7 @@
               filled
               v-model="dateModel"
               label="Selecione a Data"
-              class="cursor-pointer"
+              class="cursor-pointer q-mr-lg"
               style="background: white; border-radius: 30px"
             >
               <template v-slot:append>
@@ -42,15 +42,15 @@
             </q-input>
             <q-input
               filled
-              v-model="dateModel"
-              label="Selecione a Data"
+              v-model="timeModel"
+              label="Selecione o Horário"
               class="cursor-pointer"
               style="background: white; border-radius: 30px"
             >
               <template v-slot:append>
-                <q-icon name="event">
+                <q-icon name="access_time">
                   <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="dateModel" minimal />
+                    <q-time v-model="timeModel" format24h />
                   </q-popup-proxy>
                 </q-icon>
               </template>
@@ -66,24 +66,25 @@
   </q-dialog>
 </template>
 
-<script setup lang="ts">
-import { useDialogPluginComponent } from 'quasar';
-import { ref } from 'vue';
+<script setup>
+import { useDialogPluginComponent } from 'quasar'
+import { ref } from 'vue'
 
-const dateModel = ref('');
+const dateModel = ref('')
+const timeModel = ref('')
 
 const props = defineProps({
   roomName: {
     type: String,
     required: true,
   },
-});
+})
 
-defineEmits([...useDialogPluginComponent.emits]);
+defineEmits([...useDialogPluginComponent.emits])
 
-const { dialogRef, onDialogHide, onDialogCancel } = useDialogPluginComponent();
+const { dialogRef, onDialogHide, onDialogCancel } = useDialogPluginComponent()
 
 function goBack() {
-  onDialogCancel();
+  onDialogCancel()
 }
 </script>

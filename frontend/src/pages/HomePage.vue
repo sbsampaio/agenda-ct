@@ -66,11 +66,11 @@
   </q-page>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { Dialog } from 'quasar';
 import AvailableRoomsComponent from '../components/AvailableRoomsComponent.vue';
 
-function selectRoom(roomType: string) {
+function selectRoom(roomType) {
   console.log('Tipo de ambiente selecionado:', roomType);
 
   Dialog.create({

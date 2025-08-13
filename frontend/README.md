@@ -1,4 +1,4 @@
-# Agenda CT - Frontend (frontend)
+# Agenda CT (frontend)
 
 A Quasar Project
 

@@ -48,7 +48,7 @@
   </q-dialog>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useDialogPluginComponent, Dialog } from 'quasar';
 import AppointmentComponent from './AppointmentComponent.vue';
 
@@ -67,7 +67,7 @@ function goBack() {
   onDialogCancel();
 }
 
-function reserve(room: string) {
+function reserve(room) {
   Dialog.create({
     component: AppointmentComponent,
 
