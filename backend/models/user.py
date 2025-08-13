@@ -43,13 +43,13 @@ class User(Base):
         cascade="all, delete-orphan",
     )
     appointments_as_applicant = relationship(
-        "Appointments",
-        foreign_keys="Appointments.applicant_id",
+        "Appointment",
+        foreign_keys="Appointment.applicant_id",
         back_populates="applicant",
     )
     appointments_as_approver = relationship(
-        "Appointments",
-        foreign_keys="Appointments.approver_id",
+        "Appointment",
+        foreign_keys="Appointment.approver_id",
         back_populates="approver",
     )
 

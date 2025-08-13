@@ -19,7 +19,7 @@ class AppointmentStatus(IntEnum):
 
 
 # --- MODEL ---
-class Appointments(Base):
+class Appointment(Base):
     __tablename__ = "appointments"
 
     id: Mapped[int] = mapped_column(
@@ -85,4 +85,4 @@ class Appointments(Base):
     appointment_room = relationship("Room", back_populates="appointments")
 
     def __repr__(self) -> str:
-        return f"<Appointments(id={self.id}, applicant_id={self.applicant_id}, room_id={self.room_id})>"
+        return f"<Appointment(id={self.id}, applicant_id={self.applicant_id}, room_id={self.room_id})>"

@@ -8,28 +8,30 @@ from http import HTTPStatus
 
 from fastapi import FastAPI
 
-from backend.models import User, Role, UserRole, Room, Appointments
+from backend.models import User, Role, UserRole, Room, Appointment
 
 from backend.routers.auth import router as auth_router
 from backend.routers.users import router as users_router
-from backend.routers.appointments import router as appointments_router
+from backend.routers.appointment import router as appointments_router
 from backend.routers.room import router as room_router
 from backend.schemas import Message
 from backend.database import get_session
 from backend.db_utils import ensure_default_roles
 
-app = FastAPI(title="Minha API")
 
-
-# corrigit o deprecated
-@asynccontextmanager("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     session = next(get_session())
     try:
         ensure_default_roles(session)
         print("✅ Inicialização das roles padrão concluída!")
     finally:
         session.close()
+    
+    yield
+
+
+app = FastAPI(title="Minha API", lifespan=lifespan)
 
 
 app.include_router(auth_router)

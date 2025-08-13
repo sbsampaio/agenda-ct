@@ -26,7 +26,7 @@ if config.config_file_name is not None:
 from database.settings.declarative_base import Base
 
 # Importar todos os modelos para que o Alembic possa detectá-los
-from database.models import user, role, user_role, room, appointments
+from database.models import appointment, user, role, user_role, room
 
 target_metadata = Base.metadata
 

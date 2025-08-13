@@ -3,7 +3,7 @@ from sqlalchemy import BigInteger, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # --- local imports ---
-from ..settings.declarative_base import Base
+from ..base import Base
 
 # --- CONSTANTS ---
 NAME_LEN = 50

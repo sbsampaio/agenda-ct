@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
+import os
 
 
 class TokenSettings(BaseSettings):
@@ -38,4 +39,8 @@ class TokenSettings(BaseSettings):
 
     @property
     def DATABASE_URL(self) -> str:
+        # Se DATABASE_URL estiver definida no ambiente (para testes), use ela
+        if "DATABASE_URL" in os.environ:
+            return os.environ["DATABASE_URL"]
+        # Caso contrário, use MySQL
         return f"mysql+mysqldb://{self.db_username}:{self.db_password}@{self.db_hostname}:{self.db_port}/{self.db_name}"

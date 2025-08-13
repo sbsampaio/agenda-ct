@@ -29,7 +29,7 @@ def test_create_user(session, mock_db_time):
     assert user.email == "alice@test.com"
     assert user.created_at == time
 
-def test_create_appointments(session, user):
+def test_create_appointment(session, user):
     room = Room(
         id=1,
         name="Sala de Reunião CT 12",
@@ -95,3 +95,5 @@ def test_user_appointment_relationship(session, user: User):
     user = session.scalar(select(User).where(User.id == user.id))
 
     assert user.appointments_as_applicant == [appointment]
+
+    # testar com as rotas
