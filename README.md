@@ -13,7 +13,7 @@ Lívia Helena Rosa Scopel e Samuel Bagatelli Sampaio
 ## Ferramentas escolhidas
 
 - Versionamento e compartilhamento de código: Git
-- Build: Poetry
+- Build: Docker
 - Testes: Pytest
 - Issue tracking: Github
 - CI/CD: Github Actions
