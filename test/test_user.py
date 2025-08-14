@@ -26,7 +26,6 @@ def test_create_user_with_already_existing_email(client, user):
     assert response.json() == {"detail": "Email already registered"}
 
 
-
 def test_update_email_already_existing(client, user, token):
     client.post(
         "/users/", json={

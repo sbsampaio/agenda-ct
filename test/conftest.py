@@ -78,7 +78,7 @@ def session():
         
         # depois tenho q ver melhor sobre isso aqui, mas basicamente
         # corrige todas as tabelas com bigint para INTEGER PRIMARY KEY AUTOINCREMENT
-        tables_to_fix = ['user', 'role', 'user_role', 'room', 'appointment']
+        tables_to_fix = ['user', 'role', 'user_role', 'room', 'appointments']
         
         for table_name in tables_to_fix:
             try:
@@ -118,6 +118,37 @@ def session():
                                 role_id INTEGER NOT NULL,
                                 FOREIGN KEY (user_id) REFERENCES user(id),
                                 FOREIGN KEY (role_id) REFERENCES role(id)
+                            )
+                        """))
+                    elif table_name == 'room':
+                        conn.execute(text(f"DROP TABLE IF EXISTS {table_name}"))
+                        conn.execute(text("""
+                            CREATE TABLE room (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                name VARCHAR(100) NOT NULL,
+                                type VARCHAR(50) NOT NULL,
+                                location VARCHAR(255) NOT NULL,
+                                capacity INTEGER NOT NULL,
+                                description TEXT NOT NULL,
+                                active BOOLEAN NOT NULL DEFAULT 1
+                            )
+                        """))
+                    elif table_name == 'appointments':
+                        conn.execute(text(f"DROP TABLE IF EXISTS {table_name}"))
+                        conn.execute(text("""
+                            CREATE TABLE appointments (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                datetime_start DATETIME NOT NULL,
+                                datetime_end DATETIME NOT NULL,
+                                reason TEXT NOT NULL,
+                                status INTEGER NOT NULL,
+                                applicant_id INTEGER NOT NULL,
+                                room_id INTEGER NOT NULL,
+                                approver_id INTEGER,
+                                FOREIGN KEY (applicant_id) REFERENCES user(id) ON DELETE CASCADE,
+                                FOREIGN KEY (room_id) REFERENCES room(id) ON DELETE CASCADE,
+                                FOREIGN KEY (approver_id) REFERENCES user(id) ON DELETE CASCADE
                             )
                         """))
             except Exception as e:
