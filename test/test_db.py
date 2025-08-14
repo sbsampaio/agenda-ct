@@ -110,10 +110,8 @@ def test_user_appointment_relationship_route(session, user: User, mock_db_time, 
 
     assert response.status_code == 201
 
-    # Buscar o appointment criado no banco
     appointment = session.scalar(select(Appointment).where(Appointment.applicant_id == user.id))
     
-    # Refresh do user para garantir que o relacionamento está carregado
     session.refresh(user)
     user = session.scalar(select(User).where(User.id == user.id))
 
