@@ -4,10 +4,10 @@
       class="q-dialog-plugin q-pa-lg shadow-24 relative-position"
       style="
         background: #1f2937;
-        width: 45vw;
+        width: 60vw;
         max-width: 80vw;
-        height: 40vh;
-        max-height: 100vh;
+        height: 60vh;
+        max-height: 150vh;
         border: 1px solid #30363d;
         border-radius: 20px;
       "
@@ -22,15 +22,15 @@
         <div class="text-h6 text-blue-grey-4">Recursos: Ar condicionado, Projetor</div>
       </q-card-section>
 
-      <q-card-section class="absolute-bottom q-pb-xl">
-        <q-form class="row justify-around">
-          <div class="row">
+      <q-card-section class="q-pt-md">
+        <q-form class="column q-gutter-md">
+          <div class="row justify-between">
             <q-input
               filled
               v-model="dateModel"
               label="Selecione a Data"
-              class="cursor-pointer q-mr-lg"
-              style="background: white; border-radius: 30px"
+              class="cursor-pointer"
+              style="background: white; border-radius: 30px; width: 30%"
             >
               <template v-slot:append>
                 <q-icon name="event">
@@ -43,9 +43,9 @@
             <q-input
               filled
               v-model="timeModel"
-              label="Selecione o Horário"
+              label="Horário de Início"
               class="cursor-pointer"
-              style="background: white; border-radius: 30px"
+              style="background: white; border-radius: 30px; width: 30%"
             >
               <template v-slot:append>
                 <q-icon name="access_time">
@@ -55,9 +55,24 @@
                 </q-icon>
               </template>
             </q-input>
+            <q-input
+              filled
+              v-model="endTimeModel"
+              label="Horário de Fim"
+              class="cursor-pointer"
+              style="background: white; border-radius: 30px; width: 30%"
+            >
+              <template v-slot:append>
+                <q-icon name="access_time">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-time v-model="endTimeModel" format24h />
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
           </div>
 
-          <div class="q-pl-md">
+          <div class="row justify-center q-mt-md">
             <q-btn color="green-7" label="Solicitar Reserva" type="submit" size="lg" rounded />
           </div>
         </q-form>
@@ -72,6 +87,7 @@ import { ref } from 'vue'
 
 const dateModel = ref('')
 const timeModel = ref('')
+const endTimeModel = ref('')
 
 const props = defineProps({
   roomName: {
