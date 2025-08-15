@@ -8,28 +8,49 @@ from backend.models.appointment import Appointment, AppointmentStatus
 from backend.models.room import Room
 
 
-def test_create_user(session, mock_db_time):
+# def test_create_user(session, mock_db_time):
+#     with mock_db_time(model=User) as time:
+#         new_user = User(
+#             id=1,
+#             first_name="alice", 
+#             last_name="wonderland", 
+#             password="secret", 
+#             email="alice@test.com"
+#         )
+#         session.add(new_user)
+#         session.commit()
+
+#     user = session.scalar(select(User).where(User.first_name == "alice"))
+
+#     assert user.id == 1
+#     assert user.first_name == "alice"
+#     assert user.last_name == "wonderland"
+#     assert user.password == "secret"
+#     assert user.email == "alice@test.com"
+#     assert user.created_at == time
+
+
+
+def test_create_user_route(session, mock_db_time, client):
+    payload = {
+        "first_name": "alice",
+        "last_name": "wonderland",
+        "password": "secret",
+        "email": "alice@test.com"
+    }
+
     with mock_db_time(model=User) as time:
-        new_user = User(
-            id=1,
-            first_name="alice", 
-            last_name="wonderland", 
-            password="secret", 
-            email="alice@test.com"
-        )
-        session.add(new_user)
-        session.commit()
+        response = client.post("/users", json=payload)
+    
+    assert response.status_code == 201
 
+    # Verificar no banco
     user = session.scalar(select(User).where(User.first_name == "alice"))
-
-    assert user.id == 1
-    assert user.first_name == "alice"
-    assert user.last_name == "wonderland"
-    assert user.password == "secret"
-    assert user.email == "alice@test.com"
+    assert user is not None
     assert user.created_at == time
 
-def test_create_appointment(session, user):
+
+def test_create_appointment_route(session, user, client, mock_db_time, token):
     room = Room(
         id=1,
         name="Sala de Reunião CT 12",
@@ -42,18 +63,17 @@ def test_create_appointment(session, user):
     session.add(room)
     session.commit()
     
-    appointment = Appointment(
-        id=1,
-        reason="Reunião do CAI",
-        datetime_start=datetime(2025, 8, 3, 18, 0, 0),
-        datetime_end=datetime(2025, 8, 3, 20, 0, 0),
-        status=AppointmentStatus.PENDING,
-        applicant_id=user.id,
-        room_id=room.id,
-    )
+    payload = {
+        "reason": "Reunião do CAI",
+        "datetime_start": datetime(2025, 8, 3, 18, 0).isoformat(),
+        "datetime_end": datetime(2025, 8, 3, 20, 0).isoformat(),
+        "room_id": room.id,
+    }
 
-    session.add(appointment)
-    session.commit()
+    with mock_db_time(model=User) as time:
+        response = client.post("/appointments", json=payload, headers={"Authorization": f"Bearer {token}"})
+
+    assert response.status_code == 201
 
     saved_appointment = session.scalar(select(Appointment).where(Appointment.id == 1))
 
@@ -65,7 +85,7 @@ def test_create_appointment(session, user):
     assert saved_appointment.applicant_id == user.id
     assert saved_appointment.room_id == room.id
 
-def test_user_appointment_relationship(session, user: User):
+def test_user_appointment_relationship_route(session, user: User, mock_db_time, client, token):
     room = Room(
         id=1,
         name="Sala de Reunião 1",
@@ -78,22 +98,21 @@ def test_user_appointment_relationship(session, user: User):
     session.add(room)
     session.commit()
     
-    appointment = Appointment(
-        id=1,
-        reason="Reunião do CAI",
-        datetime_start=datetime(2025, 8, 3, 18, 0, 0),
-        datetime_end=datetime(2025, 8, 3, 20, 0, 0),
-        status=AppointmentStatus.PENDING,
-        applicant_id=user.id,
-        room_id=room.id,
-    )
+    payload = {
+        "reason": "Reunião do CAI",
+        "datetime_start": datetime(2025, 8, 3, 18, 0).isoformat(),
+        "datetime_end": datetime(2025, 8, 3, 20, 0).isoformat(),
+        "room_id": room.id,
+    }
 
-    session.add(appointment)
-    session.commit()
+    with mock_db_time(model=User) as time:
+        response = client.post("/appointments", json=payload, headers={"Authorization": f"Bearer {token}"})
+
+    assert response.status_code == 201
+
+    appointment = session.scalar(select(Appointment).where(Appointment.applicant_id == user.id))
+    
     session.refresh(user)
-
     user = session.scalar(select(User).where(User.id == user.id))
 
     assert user.appointments_as_applicant == [appointment]
-
-    # testar com as rotas
